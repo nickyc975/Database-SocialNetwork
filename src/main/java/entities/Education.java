@@ -122,7 +122,7 @@ public class Education extends Entity {
     }
 
     @Override
-    public void update(Map<String, String> args) {
+    public void update(Map<String, String> properties) {
         
     }
 

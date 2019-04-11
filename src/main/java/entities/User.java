@@ -88,6 +88,9 @@ public class User extends Entity {
         this.address = address;
     }
 
+    /**
+     * Login user.
+     */
     public boolean login() throws SQLException {
         if (authenticated) {
             return authenticated;
@@ -112,6 +115,12 @@ public class User extends Entity {
         throw new SQLException("User not exists!");
     }
 
+    /**
+     * Hash password.
+     * 
+     * @param str original password text.
+     * @return md5 hash of the original text.
+     */
     private String hash(String str) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -169,9 +178,9 @@ public class User extends Entity {
     }
 
     @Override
-    public void update(Map<String, String> args) {
+    public void update(Map<String, String> properties) {
         String key, value;
-        for (Entry<String, String> entry: args.entrySet()) {
+        for (Entry<String, String> entry: properties.entrySet()) {
             key = entry.getKey();
             value = entry.getValue();
             switch(key) {
