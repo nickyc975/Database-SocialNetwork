@@ -2,6 +2,7 @@ package entities;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class Education extends Entity {
     private Integer id = null;
@@ -118,6 +119,11 @@ public class Education extends Entity {
     @Override
     public void load() throws SQLException {
 
+    }
+
+    @Override
+    public void update(Map<String, String> args) {
+        
     }
 
     @Override

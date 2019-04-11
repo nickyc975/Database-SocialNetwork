@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class User extends Entity {
     public static final String MALE = "MALE";
@@ -167,6 +169,34 @@ public class User extends Entity {
     }
 
     @Override
+    public void update(Map<String, String> args) {
+        String key, value;
+        for (Entry<String, String> entry: args.entrySet()) {
+            key = entry.getKey();
+            value = entry.getValue();
+            switch(key) {
+                case "name":
+                    this.name = value;
+                    break;
+                case "password":
+                    this.password = value;
+                    break;
+                case "gender":
+                    this.gender = value;
+                    break;
+                case "birthday":
+                    this.birthday = parseDate(value);
+                    break;
+                case "address":
+                    this.address = value;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Override
     public void store() throws SQLException {
         if (!authenticated) {
             throw new SQLException("User not authenticated!");
@@ -219,10 +249,7 @@ public class User extends Entity {
     @Override
     public String toString() {
         return "{" +
-            " authenticated='" + authenticated + "'" +
-            ", id='" + id + "'" +
             ", username='" + username + "'" +
-            ", password='" + password + "'" +
             ", name='" + name + "'" +
             ", gender='" + gender + "'" +
             ", birthday='" + birthday + "'" +
