@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS `social_network`.`user` (
   `birthday` DATE NULL,
   `gender` ENUM("MALE", "FEMALE") NULL,
   `address` TEXT(200) NULL,
-  PRIMARY KEY (`user_id`))
+  PRIMARY KEY (`user_id`),
+  INDEX `username_idx` (`username` ASC))
 ENGINE = InnoDB AUTO_INCREMENT = 1000;
 
 SHOW WARNINGS;
