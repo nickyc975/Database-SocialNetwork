@@ -81,7 +81,7 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `social_network`.`email` (
   `user_id` INT NOT NULL,
   `address` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`address`),
+  PRIMARY KEY (`user_id`, `address`),
   INDEX `user_id_idx` (`user_id` ASC),
   CONSTRAINT `email_user_id`
     FOREIGN KEY (`user_id`)
@@ -96,13 +96,10 @@ SHOW WARNINGS;
 -- Table `social_network`.`friend_group`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `social_network`.`friend_group` (
-  `group_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `group_name` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`group_id`),
+  PRIMARY KEY (`user_id`, `group_name`),
   INDEX `user_id_idx` (`user_id` ASC),
-  UNIQUE INDEX `group_name_UNIQUE` (`group_name` ASC),
-  UNIQUE INDEX `group_id_UNIQUE` (`group_id` ASC),
   CONSTRAINT `friend_group_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `social_network`.`user` (`user_id`)
@@ -118,9 +115,9 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `social_network`.`friendship` (
   `user_id` INT NOT NULL,
   `friend_id` INT NOT NULL,
-  `group_id` INT NULL,
+  `group_name` VARCHAR(100) NULL,
   PRIMARY KEY (`user_id`, `friend_id`),
-  INDEX `group_id_idx` (`group_id` ASC),
+  INDEX `group_name_idx` (`group_name` ASC),
   CONSTRAINT `friendship_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `social_network`.`user` (`user_id`)
@@ -130,12 +127,7 @@ CREATE TABLE IF NOT EXISTS `social_network`.`friendship` (
     FOREIGN KEY (`friend_id`)
     REFERENCES `social_network`.`user` (`user_id`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `friendship_group_id`
-    FOREIGN KEY (`group_id`)
-    REFERENCES `social_network`.`friend_group` (`group_id`)
-    ON DELETE SET NULL
-    ON UPDATE SET NULL)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
