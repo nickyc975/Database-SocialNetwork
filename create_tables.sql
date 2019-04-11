@@ -216,6 +216,16 @@ CREATE TABLE IF NOT EXISTS `social_network`.`share` (
 ENGINE = InnoDB AUTO_INCREMENT = 1000;
 
 SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `social_network`.`public_posts`
+-- -----------------------------------------------------
+CREATE VIEW `social_network`.`public_posts` AS
+  SELECT * 
+  FROM `social_network`.`post`
+  WHERE `private` = FALSE;
+
+SHOW WARNINGS;
 USE `social_network`;
 
 DELIMITER $$
