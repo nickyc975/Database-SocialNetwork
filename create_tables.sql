@@ -145,6 +145,7 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `social_network`.`post` (
   `post_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
+  `private` BOOLEAN NOT NULL DEFAULT FALSE,
   `content` LONGTEXT NOT NULL,
   `update_time` DATETIME NOT NULL,
   PRIMARY KEY (`post_id`),
