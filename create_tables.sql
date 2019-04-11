@@ -36,14 +36,14 @@ SHOW WARNINGS;
 -- Table `social_network`.`education`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `social_network`.`education` (
-  `experience_id` INT NOT NULL AUTO_INCREMENT,
+  `education_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `level` VARCHAR(50) NOT NULL,
   `start` DATE NOT NULL,
   `end` DATE NOT NULL,
   `school` VARCHAR(50) NOT NULL,
   `degree` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`experience_id`),
+  PRIMARY KEY (`education_id`),
   INDEX `user_id_idx` (`user_id` ASC),
   CONSTRAINT `education_user_id`
     FOREIGN KEY (`user_id`)
@@ -55,18 +55,18 @@ ENGINE = InnoDB AUTO_INCREMENT = 1000;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `social_network`.`work_experience`
+-- Table `social_network`.`work`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `social_network`.`work_experience` (
-  `experience_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `social_network`.`work` (
+  `work_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `employer` VARCHAR(50) NOT NULL,
   `start` DATE NOT NULL,
   `end` DATE NOT NULL,
   `position` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`experience_id`),
+  PRIMARY KEY (`work_id`),
   INDEX `user_id_idx` (`user_id` ASC),
-  CONSTRAINT `work_experience_user_id`
+  CONSTRAINT `work_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `social_network`.`user` (`user_id`)
     ON DELETE CASCADE
