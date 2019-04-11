@@ -26,7 +26,7 @@ public class User extends Entity {
     private static String deleteString = "DELETE FROM `social_network`.`user` WHERE `username` = ?;";
 
     private boolean authenticated = false;
-    private Integer id = null;
+    private Integer user_id = null;
     private String username = null;
     private String password = null;
     private String name = null;
@@ -39,53 +39,53 @@ public class User extends Entity {
         this.password = hash(password);
     }
 
+    /**
+     * @return the authenticated
+     */
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+
+    /**
+     * @return the user_id
+     */
+    public Integer getUserID() {
+        return user_id;
+    }
+
+    /**
+     * @return the username
+     */
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
-    public String getPassword() {
-        return this.password;
-    }
-
+    /**
+     * @return the name
+     */
     public String getName() {
-        return this.name;
+        return name;
     }
 
+    /**
+     * @return the gender
+     */
     public String getGender() {
-        return this.gender;
+        return gender;
     }
 
+    /**
+     * @return the birthday
+     */
     public Date getBirthday() {
-        return new Date(this.birthday.getTime());
+        return birthday;
     }
 
+    /**
+     * @return the address
+     */
     public String getAddress() {
-        return this.address;
-    }
-
-    public void setPassword(String password) {
-        this.password = hash(password);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setGender(String gender) {
-        if (gender.equals(MALE) || gender.equals(FEMALE)) {
-            this.gender = gender;
-            return;
-        }
-
-        throw new IllegalArgumentException("Gender must be MALE or FEMALE!");
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = new Date(birthday.getTime());
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+        return address;
     }
 
     /**
@@ -134,7 +134,7 @@ public class User extends Entity {
 
     @Override
     public String primaryKey() {
-        return this.id.toString();
+        return this.user_id.toString();
     }
 
     @Override
@@ -164,7 +164,7 @@ public class User extends Entity {
         result = loadStatement.executeQuery();
         if (result.next()) {
             result.first();
-            this.id = result.getInt("user_id");
+            this.user_id = result.getInt("user_id");
             this.password = result.getString("password");
             this.name = result.getString("name");
             this.gender = result.getString("gender");
@@ -244,7 +244,7 @@ public class User extends Entity {
         ArrayList<User> userList = new ArrayList<>();
         while (result.next()) {
             user = new User(result.getString("username"), result.getString("password"));
-            user.id = result.getInt("user_id");
+            user.user_id = result.getInt("user_id");
             user.name = result.getString("name");
             user.gender = result.getString("gender");
             user.birthday = result.getDate("birthday");
