@@ -79,7 +79,7 @@ add friend_group (<attr_name>=<value>, ...)
 
 update friend_group (<attr_name>=<value>, ...)
 
-remove friend_group group_name
+remove friend_group <group_name>
 
 save friend_group
 ```
