@@ -95,6 +95,7 @@ public class Post extends Entity {
         }
         keys.close();
         connection.commit();
+        load();
     }
 
     @Override
@@ -182,9 +183,9 @@ public class Post extends Entity {
     public String toString() {
         return "{" + 
             "post_id=" + post_id + 
-            "private=" + isPrivate +
-            "content=" + content +
-            "update_time=" + update_time +
+            ", private=" + isPrivate +
+            ", content=" + content +
+            ", update_time=" + update_time +
         "}";
     }
 }
