@@ -251,7 +251,7 @@ SHOW WARNINGS;
 -- -----------------------------------------------------
 SHOW WARNINGS;
 CREATE VIEW `social_network`.`post_info` AS
-  SELECT `post_id`, `username`, `update_time`
+  SELECT `post_id`, `username`, `content`, `update_time`
   FROM `social_network`.`user_info`, `social_network`.`post`
   WHERE `social_network`.`post`.`private` = FALSE;
 SHOW WARNINGS;
@@ -261,7 +261,7 @@ SHOW WARNINGS;
 -- -----------------------------------------------------
 SHOW WARNINGS;
 CREATE VIEW `social_network`.`reply_info` AS
-  SELECT `reply_id`, `post_id`, `replied_id`, `username`, `reply_time`
+  SELECT `reply_id`, `post_id`, `replied_id`, `username`, `content`, `reply_time`
   FROM `social_network`.`user_info`, `social_network`.`reply`;
 SHOW WARNINGS;
 
@@ -270,7 +270,7 @@ SHOW WARNINGS;
 -- -----------------------------------------------------
 SHOW WARNINGS;
 CREATE VIEW `social_network`.`share_info` AS
-  SELECT `share_id`, `post_id`, `username`, `share_time`
+  SELECT `share_id`, `post_id`, `username`, `content`, `share_time`
   FROM `social_network`.`user_info`, `social_network`.`share`;
 SHOW WARNINGS;
 
