@@ -4,6 +4,7 @@
             "type": "java",
             "name": "CodeLens (Launch) - App",
             "request": "launch",
+            "console": "integratedTerminal",
             "mainClass": "App",
             "projectName": "SocialNetwork"
         }

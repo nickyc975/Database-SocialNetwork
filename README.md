@@ -14,6 +14,12 @@ A social network database.
 login <username> <password>
 
 register <username> <password>
+
+unregister
+
+logout
+
+exit
 ```
 
 ```

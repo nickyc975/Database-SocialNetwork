@@ -28,6 +28,8 @@ public class User extends Entity {
     private static String storeString = "UPDATE `social_network`.`user` SET `name` = ?, `gender` = ?, `birthday` = ?, `address` = ? WHERE `user_id` = ?;";
     private static String deleteString = "DELETE FROM `social_network`.`user` WHERE `user_id` = ?;";
 
+    private static String loginString = "SELECT * FROM `social_network`.`user` WHERE `username` = '?';";
+
     private boolean authenticated = false;
     private Integer user_id = null;
     private String username = null;
@@ -99,23 +101,27 @@ public class User extends Entity {
             return authenticated;
         }
 
-        ResultSet result;
-        String passwd;
-        if (loadStatement == null) {
-            loadStatement = connection.prepareStatement(loadString);
+        Statement loginStatement = connection.createStatement();
+        ResultSet result = loginStatement.executeQuery(loginString.replaceAll("\\?", this.username));
+
+        if (!result.next()) {
+            loginStatement.close();
+            throw new SQLException("User not exists!");
+        }
+        
+        String passwd = result.getString("password");
+        authenticated = passwd.equals(this.password);
+        if (authenticated) {
+            this.user_id = result.getInt("user_id");
+            this.name = result.getString("name");
+            this.gender = result.getString("gender");
+            this.birthday = result.getDate("birthday");
+            this.address = result.getString("address");
         }
 
-        loadStatement.setString(1, this.username);
-        result = loadStatement.executeQuery();
-        if (result.next()) {
-            result.first();
-            passwd = result.getString("password");
-            result.close();
-            authenticated = passwd.equals(this.password);
-            return authenticated;
-        }
-
-        throw new SQLException("User not exists!");
+        result.close();
+        loginStatement.close();
+        return authenticated;
     }
 
     /**
@@ -156,6 +162,7 @@ public class User extends Entity {
         }
         keys.close();
         connection.commit();
+        this.authenticated = true;
     }
 
     @Override
@@ -176,7 +183,6 @@ public class User extends Entity {
             throw new SQLException("User not exists!");
         }
 
-        result.first();
         this.user_id = result.getInt("user_id");
         this.password = result.getString("password");
         this.name = result.getString("name");
