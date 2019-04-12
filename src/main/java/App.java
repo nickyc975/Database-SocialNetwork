@@ -20,6 +20,8 @@ public class App {
             Entity.setConnection(connection);
 
             Scanner scanner = new Scanner(System.in);
+            
+            print("> ");
             parse(scanner.nextLine());
             while (!operation.equals("exit")) {
                 if (user != null && user.isAuthenticated()) {
