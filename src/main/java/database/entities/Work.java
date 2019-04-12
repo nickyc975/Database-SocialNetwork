@@ -1,4 +1,4 @@
-package entities;
+package database.entities;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -9,68 +9,59 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import exceptions.InvalidDataException;
+import database.exceptions.InvalidDataException;
 
-public class Education extends Entity {
+public class Work extends Entity {
     private static PreparedStatement createStatement;
     private static PreparedStatement loadStatement;
     private static PreparedStatement storeStatement;
     private static PreparedStatement deleteStatement;
 
-    private static String createString = "INSERT INTO `social_network`.`education` " + 
-                                         "(`user_id`, `level`, `start`, `end`, `school`, `degree`) " + 
+    private static String createString = "INSERT INTO `social_network`.`work` " + 
+                                         "(`user_id`, `employer`, `start`, `end`, `position`) " + 
                                          "VALUES " + 
-                                         "(?, ?, ?, ?, ?, ?);";
+                                         "(?, ?, ?, ?, ?);";
 
-    private static String loadString = "SELECT * FROM `social_network`.`education` WHERE `education_id` = ?;";
+    private static String loadString = "SELECT * FROM `social_network`.`work` WHERE `work_id` = ?;";
 
-    private static String storeString = "UPDATE `social_network`.`education` " + 
+    private static String storeString = "UPDATE `social_network`.`work` " + 
                                         "SET " + 
-                                        "`level` = ?, `start` = ?, `end` = ?, `school` = ?, `degree` = ? " + 
-                                        "WHERE `education_id` = ?;";
+                                        "`employer` = ?, `start` = ?, `end` = ?, `position` = ? " + 
+                                        "WHERE `work_id` = ?;";
 
-    private static String deleteString = "DELETE FROM `social_network`.`education` WHERE `education_id` = ?;";
+    private static String deleteString = "DELETE FROM `social_network`.`work` WHERE `work_id` = ?;";
 
-    private Integer education_id = null;
+    private Integer work_id = null;
     private Integer user_id = null;
-    private String level = null;
+    private String employer = null;
     private Date start = null;
     private Date end = null;
-    private String school = null;
-    private String degree = null;
+    private String position = null;
 
-    public Education(Integer education_id) {
-        this.education_id = education_id;
+    public Work(Integer work_id) {
+        this.work_id = work_id;
     }
 
-    public Education(Integer user_id, String level, Date start, Date end, String school, String degree) {
+    public Work(Integer user_id, String employer, Date start, Date end, String position) {
         this.user_id = user_id;
-        this.level = level;
-        this.start = new Date(start.getTime());
-        this.end = new Date(end.getTime());
-        this.school = school;
-        this.degree = degree;
+        this.employer = employer;
+        this.start = start;
+        this.end = end;
+        this.position = position;
     }
 
     /**
-     * @return the degree
+     * @return the user_id
      */
-    public String getDegree() {
-        return degree;
+    public Integer getUserID() {
+        return user_id;
     }
 
     /**
-     * @return the school
+     * @return the employer
      */
-    public String getSchool() {
-        return school;
-    }
-
-    /**
-     * @return the end
-     */
-    public Date getEnd() {
-        return new Date(end.getTime());
+    public String getEmployer() {
+        return employer;
     }
 
     /**
@@ -81,22 +72,22 @@ public class Education extends Entity {
     }
 
     /**
-     * @return the level
+     * @return the end
      */
-    public String getLevel() {
-        return level;
+    public Date getEnd() {
+        return new Date(end.getTime());
     }
 
     /**
-     * @return the user_id
+     * @return the position
      */
-    public Integer getUserID() {
-        return user_id;
+    public String getPosition() {
+        return position;
     }
 
     @Override
     public String primaryKey() {
-        return this.education_id.toString();
+        return this.work_id.toString();
     }
 
     @Override
@@ -106,11 +97,10 @@ public class Education extends Entity {
         }
 
         createStatement.setInt(1, this.user_id);
-        createStatement.setString(2, this.level);
+        createStatement.setString(2, this.employer);
         createStatement.setDate(3, this.start);
         createStatement.setDate(4, this.end);
-        createStatement.setString(5, this.school);
-        createStatement.setString(6, this.degree);
+        createStatement.setString(5, this.position);
         createStatement.executeUpdate();
 
         ResultSet keys = createStatement.getGeneratedKeys();
@@ -128,7 +118,7 @@ public class Education extends Entity {
         }
 
         ResultSet result;
-        loadStatement.setInt(1, this.education_id);
+        loadStatement.setInt(1, this.work_id);
         result = loadStatement.executeQuery();
 
         if (!result.next()) {
@@ -137,11 +127,10 @@ public class Education extends Entity {
 
         result.first();
         this.user_id = result.getInt("user_id");
-        this.level = result.getString("level");
+        this.employer = result.getString("employer");
         this.start = result.getDate("start");
         this.end = result.getDate("end");
-        this.school = result.getString("school");
-        this.degree = result.getString("degree");
+        this.position = result.getString("position");
         result.close();
     }
 
@@ -152,8 +141,8 @@ public class Education extends Entity {
             key = entry.getKey();
             value = entry.getValue();
             switch (key) {
-                case "level":
-                    this.level = value;
+                case "employer":
+                    this.employer = value;
                     break;
                 case "start":
                     this.start = parseDate(value);
@@ -161,11 +150,8 @@ public class Education extends Entity {
                 case "end":
                     this.end = parseDate(value);
                     break;
-                case "school":
-                    this.school = value;
-                    break;
-                case "degree":
-                    this.degree = value;
+                case "position":
+                    this.position = value;
                     break;
                 default:
                     break;
@@ -179,12 +165,11 @@ public class Education extends Entity {
             storeStatement = connection.prepareStatement(storeString);
         }
 
-        storeStatement.setString(1, this.level);
+        storeStatement.setString(1, this.employer);
         storeStatement.setDate(2, this.start);
         storeStatement.setDate(3, this.end);
-        storeStatement.setString(4, this.school);
-        storeStatement.setString(5, this.degree);
-        storeStatement.setInt(6, this.education_id);
+        storeStatement.setString(4, this.position);
+        storeStatement.setInt(6, this.work_id);
 
         storeStatement.executeUpdate();
         connection.commit();
@@ -196,37 +181,35 @@ public class Education extends Entity {
             deleteStatement = connection.prepareStatement(deleteString);
         }
 
-        deleteStatement.setInt(1, this.education_id);
+        deleteStatement.setInt(1, this.work_id);
         deleteStatement.executeUpdate();
         connection.commit();
     }
 
-    public static ArrayList<Education> query(String queryString) throws SQLException {
-        Education education;
+    public static ArrayList<Work> query(String queryString) throws SQLException {
+        Work work;
         ResultSet result = naiveQuery(queryString);
-        ArrayList<Education> educationList = new ArrayList<>();
+        ArrayList<Work> workList = new ArrayList<>();
         while (result.next()) {
-            education = new Education(result.getInt("education_id"));
-            education.user_id = result.getInt("user_id");
-            education.level = result.getString("level");
-            education.start = result.getDate("start");
-            education.end = result.getDate("end");
-            education.school = result.getString("school");
-            education.degree = result.getString("degree");
-            educationList.add(education);
+            work = new Work(result.getInt("Work_id"));
+            work.user_id = result.getInt("user_id");
+            work.employer = result.getString("employer");
+            work.start = result.getDate("start");
+            work.end = result.getDate("end");
+            work.position = result.getString("position");
+            workList.add(work);
         }
-        return educationList;
+        return workList;
     }
 
     @Override
     public String toString() {
         return "{" + 
-               ", eduaction_id='" + this.education_id + "'" + 
-               ", level='" + this.level + "'" + 
+               ", eduaction_id='" + this.work_id + "'" + 
+               ", employer='" + this.employer + "'" + 
                ", start='" + this.start + "'" + 
                ", end='" + this.end + "'" + 
-               ", school='" + this.school + "'" + 
-               ", degree='" + this.degree + "'" + 
+               ", position='" + this.position + "'" + 
             "}";
     }
 }

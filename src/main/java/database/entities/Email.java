@@ -1,4 +1,4 @@
-package entities;
+package database.entities;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import exceptions.InvalidDataException;
+import database.exceptions.InvalidDataException;
 
 public class Email extends Entity {
     private static PreparedStatement createStatement;

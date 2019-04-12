@@ -1,4 +1,4 @@
-package entities;
+package database.entities;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import exceptions.InvalidDataException;
+import database.exceptions.InvalidDataException;
 
 public class User extends Entity {
     public static final String MALE = "MALE";

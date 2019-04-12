@@ -1,4 +1,4 @@
-package entities;
+package database.entities;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import exceptions.InvalidDataException;
+import database.exceptions.InvalidDataException;
 
 public class Friendship extends Entity {
     private static PreparedStatement createStatement;

@@ -1,4 +1,4 @@
-package views;
+package database;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,9 +10,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import exceptions.InvalidDataException;
+import database.exceptions.InvalidDataException;
 
-public class View {
+
+public class Model {
     /**
      * Global DateFormat instance.
      */
@@ -34,8 +35,8 @@ public class View {
      * @param connection Database connection object.
      */
     public static void setConnection(Connection connection) throws SQLException {
-        View.connection = connection;
-        View.connection.setAutoCommit(false);
+        Model.connection = connection;
+        Model.connection.setAutoCommit(false);
     }
 
     /**
@@ -64,7 +65,7 @@ public class View {
      * @return object list.
      * @throws SQLException query error.
      */
-    public static ArrayList<? extends View> query(String queryString) throws SQLException {
+    public static ArrayList<? extends Model> query(String queryString) throws SQLException {
         throw new RuntimeException("This method is not implemented in this class!");
     }
 

@@ -1,4 +1,4 @@
-package exceptions;
+package database.exceptions;
 
 public class InvalidDataException extends Exception {
     private static final long serialVersionUID = 99878912987503L;

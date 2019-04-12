@@ -1,10 +1,10 @@
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import entities.*;
+import database.Model;
+import database.entities.*;
 
 public class App {
     private static User user;
@@ -17,7 +17,7 @@ public class App {
 
             Connection connection = DriverManager
                     .getConnection("jdbc:mysql://localhost:3306/social_network?user=root&password=123456");
-            Entity.setConnection(connection);
+            Model.setConnection(connection);
 
             Scanner scanner = new Scanner(System.in);
             
