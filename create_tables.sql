@@ -230,7 +230,8 @@ CREATE VIEW `social_network`.`friend` AS
   SELECT `social_network`.`friendship`.`user_id`, 
          `social_network`.`friendship`.`friend_id`, 
          `social_network`.`friendship`.`group_id`, 
-         `social_network`.`user_info`.`username`
+         `social_network`.`user_info`.`username`,
+         `social_network`.`user_info`.`name`
   FROM `social_network`.`friendship`, `social_network`.`user_info`
   WHERE `social_network`.`friendship`.`friend_id` = `social_network`.`user_info`.`user_id` 
   GROUP BY `social_network`.`friendship`.`user_id`;

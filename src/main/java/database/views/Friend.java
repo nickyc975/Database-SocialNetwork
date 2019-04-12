@@ -9,6 +9,7 @@ public class Friend extends View {
     private Integer friend_id = null;
     private Integer group_id = null;
     private String username = null;
+    private String name = null;
 
     private Friend() {}
 
@@ -40,6 +41,13 @@ public class Friend extends View {
         return username;
     }
 
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
     public static ArrayList<Friend> query(String queryString) throws SQLException {
         Friend friend;
         ResultSet result = naiveQuery(queryString);
@@ -50,8 +58,17 @@ public class Friend extends View {
             friend.friend_id = result.getInt("friend_id");
             friend.group_id = result.getInt("group_id");
             friend.username = result.getString("username");
+            friend.name = result.getString("name");
             friendList.add(friend);
         }
         return friendList;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + 
+               "username='" + username + "'" + 
+               ", name='" + name + "'" + 
+            "}";
     }
 }
