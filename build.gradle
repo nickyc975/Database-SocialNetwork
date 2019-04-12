@@ -24,8 +24,10 @@ dependencies {
     compile 'com.google.guava:guava:20.0'
 
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+    compile 'mysql:mysql-connector-java:5.1.6'
 
+    // JCommander
+    compile "com.beust:jcommander:1.71"
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
