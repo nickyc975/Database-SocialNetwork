@@ -5,13 +5,13 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema social_network
+-- Database social_network
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema social_network
+-- Database social_network
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `social_network` DEFAULT CHARACTER SET utf8 ;
+CREATE DATABASE IF NOT EXISTS `social_network` DEFAULT CHARACTER SET utf8 ;
 SHOW WARNINGS;
 USE `social_network` ;
 
@@ -96,10 +96,13 @@ SHOW WARNINGS;
 -- Table `social_network`.`friend_group`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `social_network`.`friend_group` (
+  `group_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `group_name` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`user_id`, `group_name`),
+  PRIMARY KEY (`group_id`),
   INDEX `user_id_idx` (`user_id` ASC),
+  CONSTRAINT `user_id_group_name_uc`
+    UNIQUE (`user_id`, `group_name`),
   CONSTRAINT `friend_group_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `social_network`.`user` (`user_id`)
@@ -115,9 +118,9 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `social_network`.`friendship` (
   `user_id` INT NOT NULL,
   `friend_id` INT NOT NULL,
-  `group_name` VARCHAR(100) NULL,
+  `group_id` VARCHAR(100) NULL,
   PRIMARY KEY (`user_id`, `friend_id`),
-  INDEX `group_name_idx` (`group_name` ASC),
+  INDEX `group_id_idx` (`group_id` ASC),
   CONSTRAINT `friendship_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `social_network`.`user` (`user_id`)
@@ -211,12 +214,73 @@ ENGINE = InnoDB AUTO_INCREMENT = 1000;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- View `social_network`.`public_posts`
+-- View `social_network`.`user_info`
 -- -----------------------------------------------------
-CREATE VIEW `social_network`.`public_posts` AS
+SHOW WARNINGS;
+CREATE VIEW `social_network`.`user_info` AS
+  SELECT `user_id`, `username`, `name`
+  FROM `social_network`.`user`;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `social_network`.`friend`
+-- -----------------------------------------------------
+SHOW WARNINGS;
+CREATE VIEW `social_network`.`friend` AS
+  SELECT `social_network`.`friendship`.`user_id`, 
+         `social_network`.`friendship`.`friend_id`, 
+         `social_network`.`friendship`.`group_id`, 
+         `social_network`.`user_info`.`username`
+  FROM `social_network`.`friendship`, `social_network`.`user_info`
+  WHERE `social_network`.`friendship`.`friend_id` = `social_network`.`user_info`.`user_id` 
+  GROUP BY `social_network`.`friendship`.`user_id`;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `social_network`.`friend_info`
+-- -----------------------------------------------------
+SHOW WARNINGS;
+CREATE VIEW `social_network`.`friend_info` AS
+  SELECT `user_id`, `username`, `name`, `birthday`, `gender`, `address` 
+  FROM `social_network`.`user`;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `social_network`.`public_post`
+-- -----------------------------------------------------
+SHOW WARNINGS;
+CREATE VIEW `social_network`.`public_post` AS
   SELECT * 
   FROM `social_network`.`post`
   WHERE `private` = FALSE;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `social_network`.`post_info`
+-- -----------------------------------------------------
+SHOW WARNINGS;
+CREATE VIEW `social_network`.`post_info` AS
+  SELECT `post_id`, `social_network`.`user`.`user_id`, `username`, `update_time`
+  FROM `social_network`.`user`, `social_network`.`public_post`;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `social_network`.`reply_info`
+-- -----------------------------------------------------
+SHOW WARNINGS;
+CREATE VIEW `social_network`.`reply_info` AS
+  SELECT `post_id`, `replied_id`, `username`, `reply_time`
+  FROM `social_network`.`user`, `social_network`.`reply`;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `social_network`.`share_info`
+-- -----------------------------------------------------
+SHOW WARNINGS;
+CREATE VIEW `social_network`.`share_info` AS
+  SELECT `post_id`, `share_id`, `username`, `share_time`
+  FROM `social_network`.`user`, `social_network`.`share`;
+SHOW WARNINGS;
 
 SHOW WARNINGS;
 USE `social_network`;

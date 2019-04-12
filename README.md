@@ -11,7 +11,9 @@ A social network database.
 * Personal Info
 
 ```
-register username password
+login <username> <password>
+
+register <username> <password>
 ```
 
 ```
@@ -25,9 +27,7 @@ save info
 * Additional Info
 
 ```
-search education (<attr_name>=<value>, ...)
-
-show education [<education_id>]
+show education [(<attr_name>=<value>, ...)]
 
 add education (<attr_name>=<value>, ...)
 
@@ -39,9 +39,7 @@ save education [<education_id>]
 ```
 
 ```
-search work (<attr_name>=<value>, ...)
-
-show work [<work_id>]
+show work [(<attr_name>=<value>, ...)]
 
 add work (<attr_name>=<value>, ...)
 
@@ -55,15 +53,13 @@ save work [<work_id>]
 * Friend
 
 ```
-search user (<attr_name>=<value>, ...)
+show user [(<attr_name>=<value>, ...)]
 
-show friend [<username>]
+show friend [(<attr_name>=<value>, ...)]
 
 add friend <username>
 
-move <username> to <group_name>
-
-move <username> out
+update friend (<attr_name>=<value>, ...)
 
 remove friend <username>
 
@@ -85,9 +81,7 @@ save friend_group
 * Post
 
 ```
-search post (<attr_name>=<value>, ...)
-
-show post [<post_id>]
+show post [(<attr_name>=<value>, ...)]
 
 add post (<attr_name>=<value>, ...)
 
@@ -101,9 +95,7 @@ save post [<post_id>]
 * Reply
 
 ```
-search reply (<attr_name>=<value>, ...)
-
-show reply [<reply_id>]
+show reply [(<attr_name>=<value>, ...)]
 
 add reply (<attr_name>=<value>, ...)
 
@@ -115,9 +107,7 @@ save reply [<reply_id>]
 * Share
 
 ```
-search share (<attr_name>=<value>, ...)
-
-show share [<share_id>]
+show share [(<attr_name>=<value>, ...)]
 
 add share (<attr_name>=<value>, ...)
 
