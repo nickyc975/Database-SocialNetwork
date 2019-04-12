@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -139,6 +140,18 @@ public class Friendship extends Entity {
                 }
         }
 
+    }
+
+    public static ArrayList<Friendship> query(String queryString) throws SQLException {
+        Friendship ship;
+        ResultSet result = naiveQuery(queryString);
+        ArrayList<Friendship> shipList = new ArrayList<>();
+        while (result.next()) {
+            ship = new Friendship(result.getInt("user_id"), result.getInt("friend_id"));
+            ship.group_id = result.getInt("group_id");
+            shipList.add(ship);
+        }
+        return shipList;
     }
 
     @Override

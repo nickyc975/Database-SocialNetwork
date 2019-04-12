@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -62,7 +63,7 @@ public class FriendGroup extends Entity {
 
         ResultSet keys = createStatement.getGeneratedKeys();
         if (keys.next()) {
-            this.user_id = keys.getInt(1);
+            this.group_id = keys.getInt(1);
         }
         keys.close();
         connection.commit();
@@ -131,6 +132,18 @@ public class FriendGroup extends Entity {
                     break;
                 }
         }
+    }
+
+    public static ArrayList<FriendGroup> query(String queryString) throws SQLException {
+        FriendGroup group;
+        ResultSet result = naiveQuery(queryString);
+        ArrayList<FriendGroup> groupList = new ArrayList<>();
+        while (result.next()) {
+            group = new FriendGroup(result.getInt("user_id"), result.getString("group_name"));
+            group.group_id = result.getInt("group_id");
+            groupList.add(group);
+        }
+        return groupList;
     }
 
     @Override
