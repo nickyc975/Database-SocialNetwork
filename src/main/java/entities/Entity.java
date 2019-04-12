@@ -5,13 +5,23 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
+
+import exceptions.InvalidDataException;
 
 /**
  * Abstract entity class.
  */
 public abstract class Entity {
+    /**
+     * Global DateFormat instance.
+     */
+    private static DateFormat format;
+
     /**
      * Global query statement.
      */
@@ -57,8 +67,9 @@ public abstract class Entity {
      * Update properties of the object with given args.
      * 
      * @param properties porpertoies.
+     * @throws InvalidDataException invalid data.
      */
-    public abstract void update(Map<String, String> properties);
+    public abstract void update(Map<String, String> properties) throws InvalidDataException;
 
     /**
      * Store properties of the object into database.
@@ -79,10 +90,18 @@ public abstract class Entity {
      * 
      * @param date date string with format yyyy-MM-dd.
      * @return Date object.
+     * @throws InvalidDataException date format error.
      */
-    public static Date parseDate(String date) {
-        String[] parts = date.split("-");
-        return new Date(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+    public static Date parseDate(String date) throws InvalidDataException {
+        if (format == null) {
+            format = new SimpleDateFormat("yyyy-MM-dd");
+        }
+
+        try {
+            return new Date(format.parse(date).getTime());
+        } catch (ParseException ignored) {
+            throw new InvalidDataException(date, "Valid date format: yyyy-MM-dd, eg. 2019-04-12");
+        }
     };
 
     /**

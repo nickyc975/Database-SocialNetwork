@@ -7,9 +7,12 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import exceptions.InvalidDataException;
 
 public class User extends Entity {
     public static final String MALE = "MALE";
@@ -21,9 +24,9 @@ public class User extends Entity {
     private static PreparedStatement deleteStatement;
 
     private static String createString = "INSERT INTO `social_network`.`user` (`username`, `password`) VALUES (?, ?);";
-    private static String loadString = "SELECT * FROM `social_network`.`user` WHERE `username` = ?;";
-    private static String storeString = "UPDATE `social_network`.`user` SET `name` = ?, `gender` = ?, `birthday` = ?, `address` = ? WHERE `username` = ?;";
-    private static String deleteString = "DELETE FROM `social_network`.`user` WHERE `username` = ?;";
+    private static String loadString = "SELECT * FROM `social_network`.`user` WHERE `user_id` = ?;";
+    private static String storeString = "UPDATE `social_network`.`user` SET `name` = ?, `gender` = ?, `birthday` = ?, `address` = ? WHERE `user_id` = ?;";
+    private static String deleteString = "DELETE FROM `social_network`.`user` WHERE `user_id` = ?;";
 
     private boolean authenticated = false;
     private Integer user_id = null;
@@ -140,12 +143,18 @@ public class User extends Entity {
     @Override
     public void create() throws SQLException {
         if (createStatement == null) {
-            createStatement = connection.prepareStatement(createString);
+            createStatement = connection.prepareStatement(createString, Statement.RETURN_GENERATED_KEYS);
         }
 
         createStatement.setString(1, this.username);
         createStatement.setString(2, this.password);
         createStatement.executeUpdate();
+
+        ResultSet keys = createStatement.getGeneratedKeys();
+        if (keys.next()) {
+            this.user_id = keys.getInt(1);
+        }
+        keys.close();
         connection.commit();
     }
 
@@ -155,35 +164,35 @@ public class User extends Entity {
             throw new SQLException("User not authenticated!");
         }
 
-        ResultSet result;
         if (loadStatement == null) {
             loadStatement = connection.prepareStatement(loadString);
         }
 
-        loadStatement.setString(1, this.username);
+        ResultSet result;
+        loadStatement.setInt(1, this.user_id);
         result = loadStatement.executeQuery();
-        if (result.next()) {
-            result.first();
-            this.user_id = result.getInt("user_id");
-            this.password = result.getString("password");
-            this.name = result.getString("name");
-            this.gender = result.getString("gender");
-            this.birthday = result.getDate("birthday");
-            this.address = result.getString("address");
-            result.close();
-            return;
+
+        if (!result.next()) {
+            throw new SQLException("User not exists!");
         }
 
-        throw new SQLException("User not exists!");
+        result.first();
+        this.user_id = result.getInt("user_id");
+        this.password = result.getString("password");
+        this.name = result.getString("name");
+        this.gender = result.getString("gender");
+        this.birthday = result.getDate("birthday");
+        this.address = result.getString("address");
+        result.close();
     }
 
     @Override
-    public void update(Map<String, String> properties) {
+    public void update(Map<String, String> properties) throws InvalidDataException {
         String key, value;
-        for (Entry<String, String> entry: properties.entrySet()) {
+        for (Entry<String, String> entry : properties.entrySet()) {
             key = entry.getKey();
             value = entry.getValue();
-            switch(key) {
+            switch (key) {
                 case "name":
                     this.name = value;
                     break;
@@ -191,6 +200,9 @@ public class User extends Entity {
                     this.password = value;
                     break;
                 case "gender":
+                    if (value != MALE || value != FEMALE) {
+                        throw new InvalidDataException(value, "Gender must be either MALE or FEMALE!");
+                    }
                     this.gender = value;
                     break;
                 case "birthday":
@@ -219,6 +231,7 @@ public class User extends Entity {
         storeStatement.setString(2, this.gender);
         storeStatement.setDate(3, this.birthday);
         storeStatement.setString(4, this.address);
+        storeStatement.setInt(5, this.user_id);
         storeStatement.executeUpdate();
         connection.commit();
     }
@@ -233,7 +246,7 @@ public class User extends Entity {
             deleteStatement = connection.prepareStatement(deleteString);
         }
 
-        deleteStatement.setString(1, this.username);
+        deleteStatement.setInt(1, this.user_id);
         deleteStatement.executeUpdate();
         connection.commit();
     }
@@ -257,12 +270,12 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return "{" +
-            ", username='" + username + "'" +
-            ", name='" + name + "'" +
-            ", gender='" + gender + "'" +
-            ", birthday='" + birthday + "'" +
-            ", address='" + address + "'" +
+        return "{" + 
+               ", username='" + username + "'" + 
+               ", name='" + name + "'" + 
+               ", gender='" + gender + "'" + 
+               ", birthday='" + birthday + "'" + 
+               ", address='" + address + "'" + 
             "}";
     }
 }
