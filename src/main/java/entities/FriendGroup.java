@@ -118,7 +118,7 @@ public class FriendGroup extends Entity {
     }
 
     @Override
-    public void update(Map<String, String> properties)  throws InvalidDataException {
+    public void update(Map<String, String> properties) throws InvalidDataException {
         String key, value;
         for (Entry<String, String> entry : properties.entrySet()) {
             key = entry.getKey();
