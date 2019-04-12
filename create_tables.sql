@@ -246,22 +246,13 @@ CREATE VIEW `social_network`.`friend_info` AS
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- View `social_network`.`public_post`
--- -----------------------------------------------------
-SHOW WARNINGS;
-CREATE VIEW `social_network`.`public_post` AS
-  SELECT * 
-  FROM `social_network`.`post`
-  WHERE `private` = FALSE;
-SHOW WARNINGS;
-
--- -----------------------------------------------------
 -- View `social_network`.`post_info`
 -- -----------------------------------------------------
 SHOW WARNINGS;
 CREATE VIEW `social_network`.`post_info` AS
   SELECT `post_id`, `social_network`.`user`.`user_id`, `username`, `update_time`
-  FROM `social_network`.`user`, `social_network`.`public_post`;
+  FROM `social_network`.`user`, `social_network`.`post`
+  WHERE `social_network`.`post`.`private` = FALSE;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
