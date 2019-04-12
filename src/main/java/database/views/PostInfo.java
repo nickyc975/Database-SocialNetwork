@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class PostInfo extends View {
     private Integer post_id = null;
     private String  username = null;
+    private String content = null;
     private Date update_time =null;
 
     /**
@@ -25,6 +26,13 @@ public class PostInfo extends View {
     }
 
     /**
+     * @return the content
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
      * @return the update_time
      */
     public Date getUpdateTime() {
@@ -39,6 +47,7 @@ public class PostInfo extends View {
             postInfo = new PostInfo();
             postInfo.post_id = result.getInt("post_id");
             postInfo.username = result.getString("username");
+            postInfo.content = result.getString("content");
             postInfo.update_time = result.getDate("update_time");
             postInfoList.add(postInfo);
         }
@@ -50,6 +59,7 @@ public class PostInfo extends View {
         return "{" + 
             "post_id='" + post_id + "'" +
             ", username='" + username + "'" + 
+            ", content='" + content + "'" +
             ", update_time='" + update_time + "'" + 
         "}";
     }

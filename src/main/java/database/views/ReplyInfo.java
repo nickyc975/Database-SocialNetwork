@@ -10,6 +10,7 @@ public class ReplyInfo extends View {
     private Integer post_id = null;
     private Integer replied_id = null;
     private String  username = null;
+    private String content = null;
     private Date reply_time =null;
 
     /**
@@ -41,6 +42,13 @@ public class ReplyInfo extends View {
     }
 
     /**
+     * @return the content
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
      * @return the update_time
      */
     public Date getReplyTime() {
@@ -57,6 +65,7 @@ public class ReplyInfo extends View {
             replyInfo.post_id = result.getInt("post_id");
             replyInfo.replied_id = result.getInt("replied_id");
             replyInfo.username = result.getString("username");
+            replyInfo.content = result.getString("content");
             replyInfo.reply_time = result.getDate("reply_time");
             replyInfoList.add(replyInfo);
         }
@@ -70,6 +79,7 @@ public class ReplyInfo extends View {
             ", post_id='" + post_id + "'" +
             ", replied_id='" + replied_id + "'" +
             ", username='" + username + "'" + 
+            ", content='" + content + "'" +
             ", reply_time='" + reply_time + "'" + 
         "}";
     }

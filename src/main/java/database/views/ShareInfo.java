@@ -9,6 +9,7 @@ public class ShareInfo extends View {
     private Integer share_id = null;
     private Integer post_id = null;
     private String  username = null;
+    private String content = null;
     private Date share_time =null;
 
     /**
@@ -33,6 +34,13 @@ public class ShareInfo extends View {
     }
 
     /**
+     * @return the content
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
      * @return the update_time
      */
     public Date getShareTime() {
@@ -48,6 +56,7 @@ public class ShareInfo extends View {
             shareInfo.share_id = result.getInt("share_id");
             shareInfo.post_id = result.getInt("post_id");
             shareInfo.username = result.getString("username");
+            shareInfo.content = result.getString("content");
             shareInfo.share_time = result.getDate("share_time");
             shareInfoList.add(shareInfo);
         }
@@ -60,6 +69,7 @@ public class ShareInfo extends View {
             "share_id='" + share_id + "'" +
             ", post_id='" + post_id + "'" +
             ", username='" + username + "'" + 
+            ", content='" + content + "'" +
             ", share_time='" + share_time + "'" + 
         "}";
     }
