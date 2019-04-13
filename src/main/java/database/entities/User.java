@@ -151,16 +151,25 @@ public class User extends Entity {
         if (createStatement == null) {
             createStatement = connection.prepareStatement(createString, Statement.RETURN_GENERATED_KEYS);
         }
+        connection.setSavepoint();
 
-        createStatement.setString(1, this.username);
-        createStatement.setString(2, this.password);
-        createStatement.executeUpdate();
+        try {
+            createStatement.setString(1, this.username);
+            createStatement.setString(2, this.password);
+            createStatement.executeUpdate();
 
-        ResultSet keys = createStatement.getGeneratedKeys();
-        if (keys.next()) {
-            this.user_id = keys.getInt(1);
+            ResultSet keys = createStatement.getGeneratedKeys();
+            if (keys.next()) {
+                this.user_id = keys.getInt(1);
+            }
+            keys.close();
+            Email email = new Email(this.user_id, this.username);
+            email.create();
+        } catch(SQLException e) {
+            connection.rollback();
+            throw new SQLException("Username " + this.username + " conflict!");
         }
-        keys.close();
+
         connection.commit();
         this.authenticated = true;
     }
