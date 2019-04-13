@@ -212,14 +212,136 @@ class EntityHandlers {
     }
 
     static void handlePostEntity(String operation, String identity, List<Arg> args) {
+        Post post;
+        Boolean isPrivate = false;
+        String content = null;
+        Map<String, String> properties;
+        switch (operation) {
+            case "add":
+                properties = new HashMap<>();
+                for (Arg arg : args) {
+                    properties.put(arg.getName(), arg.getValue());
+                }
+                try {
+                    isPrivate = Boolean.parseBoolean(properties.get("private"));
+                    content = properties.get("content");
+                    post = new Post(user.getUserID(), isPrivate, content);
+                    post.create();
+                } catch (SQLException e) {
+                    App.println(e.getMessage());
+                }
+                break;
+            case "update":
+                if (identity == null) {
+                    App.println("Identity required!");
+                    return;
+                }
 
+                properties = new HashMap<>();
+                for (Arg arg : args) {
+                    properties.put(arg.getName(), arg.getValue());
+                }
+
+                try {
+                    post = new Post(Integer.parseInt(identity));
+                    post.load();
+                    post.update(properties);
+                    post.store();
+                } catch (SQLException e) {
+                    App.println(e.getMessage());
+                }
+                break;
+            case "remove":
+                if (identity == null) {
+                    App.println("Identity required!");
+                    return;
+                }
+
+                try {
+                    post = new Post(Integer.parseInt(identity));
+                    post.delete();
+                } catch (SQLException e) {
+                    App.println(e.getMessage());
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     static void handleReplyEntity(String operation, String identity, List<Arg> args) {
+        Reply reply;
+        Integer post_id;
+        String content = null;
+        Map<String, String> properties;
+        switch (operation) {
+            case "add":
+                properties = new HashMap<>();
+                for (Arg arg : args) {
+                    properties.put(arg.getName(), arg.getValue());
+                }
+                try {
+                    post_id = Integer.parseInt(properties.get("post_id"));
+                    content = properties.get("content");
+                    reply = new Reply(user.getUserID(), post_id, content);
+                    reply.create();
+                } catch (SQLException e) {
+                    App.println(e.getMessage());
+                }
+                break;
+            case "remove":
+                if (identity == null) {
+                    App.println("Identity required!");
+                    return;
+                }
 
+                try {
+                    reply = new Reply(Integer.parseInt(identity));
+                    reply.delete();
+                } catch (SQLException e) {
+                    App.println(e.getMessage());
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     static void handleShareEntity(String operation, String identity, List<Arg> args) {
+        Share share;
+        Integer post_id;
+        String content = null;
+        Map<String, String> properties;
+        switch (operation) {
+            case "add":
+                properties = new HashMap<>();
+                for (Arg arg : args) {
+                    properties.put(arg.getName(), arg.getValue());
+                }
+                try {
+                    post_id = Integer.parseInt(properties.get("post_id"));
+                    content = properties.get("content");
+                    share = new Share(user.getUserID(), post_id, content);
+                    share.create();
+                } catch (SQLException e) {
+                    App.println(e.getMessage());
+                }
+                break;
+            case "remove":
+                if (identity == null) {
+                    App.println("Identity required!");
+                    return;
+                }
 
+                try {
+                    share = new Share(Integer.parseInt(identity));
+                    share.delete();
+                } catch (SQLException e) {
+                    App.println(e.getMessage());
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -17,7 +17,7 @@ public class Post extends Entity {
 
     private static String createString = "INSERT INTO `social_network`.`post` " + 
                                          "(`user_id`, `private`, `content`) " + 
-                                         "VALUES (?, ?, ?, ?);";
+                                         "VALUES (?, ?, ?);";
 
     private static String loadString = "SELECT * FROM `social_network`.`post` WHERE `post_id` = ?;";
 

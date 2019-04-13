@@ -15,8 +15,8 @@ public class Reply extends Entity {
     private static PreparedStatement deleteStatement;
 
     private static String createString = "INSERT INTO `social_network`.`reply` " + 
-                                         "(`user_id`, `post_id`, `replied_id`, `content`) " + 
-                                         "VALUES (?, ?, ?, ?);";
+                                         "(`user_id`, `post_id`, `content`) " + 
+                                         "VALUES (?, ?, ?);";
 
     private static String loadString = "SELECT * FROM `social_network`.`reply` WHERE `reply_id` = ?;";
 
@@ -33,10 +33,9 @@ public class Reply extends Entity {
         this.reply_id = reply_id;
     }
 
-    public Reply(Integer user_id, Integer post_id, Integer replied_id, String content) {
+    public Reply(Integer user_id, Integer post_id, String content) {
         this.user_id = user_id;
         this.post_id = post_id;
-        this.replied_id = replied_id;
         this.content = content;
     }
 
@@ -88,8 +87,7 @@ public class Reply extends Entity {
 
         createStatement.setInt(1, this.user_id);
         createStatement.setInt(2, this.post_id);
-        createStatement.setInt(3, this.replied_id);
-        createStatement.setString(4, this.content);
+        createStatement.setString(3, this.content);
         createStatement.executeUpdate();
 
         ResultSet keys = createStatement.getGeneratedKeys();
@@ -160,7 +158,7 @@ public class Reply extends Entity {
         ResultSet result = naiveQuery(queryString);
         ArrayList<Reply> replyList = new ArrayList<>();
         while (result.next()) {
-            reply = new Reply(result.getInt("user_id"), result.getInt("post_id"), result.getInt("replied_id"), result.getString("content"));
+            reply = new Reply(result.getInt("user_id"), result.getInt("post_id"), result.getString("content"));
             reply.reply_id = result.getInt("reply_id");
             replyList.add(reply);
         }
