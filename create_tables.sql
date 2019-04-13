@@ -2,7 +2,7 @@
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
 -- Database social_network
@@ -234,7 +234,7 @@ CREATE VIEW `social_network`.`friend` AS
          `social_network`.`user_info`.`name`
   FROM `social_network`.`friendship`, `social_network`.`user_info`
   WHERE `social_network`.`friendship`.`friend_id` = `social_network`.`user_info`.`user_id` 
-  GROUP BY `social_network`.`friendship`.`user_id`;
+  GROUP BY `social_network`.`friendship`.`user_id`, `social_network`.`friendship`.`friend_id`;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
