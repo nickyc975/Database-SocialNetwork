@@ -16,6 +16,18 @@ class ViewHandlers {
         ViewHandlers.user = user;
     }
 
+    static void handleUserView(String identity, List<Arg> args) {
+        StringBuilder query = new StringBuilder("SELECT * FROM user_info;");
+        try {
+            ArrayList<UserInfo> list = UserInfo.query(query.toString());
+            for (UserInfo e : list) {
+                App.println(e.toString());
+            }
+        } catch (SQLException e) {
+            App.println(e.getMessage());
+        }
+    }
+
     static void handleEducationView(String identity, List<Arg> args) {
         StringBuilder query = new StringBuilder("SELECT * FROM education WHERE `user_id`=");
         query.append(user.getUserID().toString());
@@ -75,10 +87,6 @@ class ViewHandlers {
         } catch (SQLException e) {
             App.println(e.getMessage());
         }
-    }
-
-    static void handleUserView(String identity, List<Arg> args) {
-
     }
 
     static void handleFriendView(String identity, List<Arg> args) {

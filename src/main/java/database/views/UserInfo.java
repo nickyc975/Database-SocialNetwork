@@ -49,7 +49,8 @@ public class UserInfo extends View {
     @Override
     public String toString() {
         return "{" + 
-               "username='" + username + "'" + 
+               "user_id='" + user_id + "'" + 
+               ", username='" + username + "'" + 
                ", name='" + name + "'" + 
             "}";
     }
