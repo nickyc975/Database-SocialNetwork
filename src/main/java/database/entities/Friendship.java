@@ -17,8 +17,8 @@ public class Friendship extends Entity {
     private static PreparedStatement deleteStatement;
     
     private static String createString = "INSERT INTO `social_network`.`friendship` " + 
-                                         "(`user_id`, `friend_id`, `group_id`) " + 
-                                         "VALUES (?, ?, ?);";
+                                         "(`user_id`, `friend_id`) " + 
+                                         "VALUES (?, ?);";
 
     private static String loadString = "SELECT * FROM `social_network`.`friendship` " + 
                                        "WHERE `user_id` = ? AND `friend_id` = ?;";
@@ -68,7 +68,6 @@ public class Friendship extends Entity {
 
         createStatement.setInt(1, this.user_id);
         createStatement.setInt(2, this.friend_id);
-        createStatement.setInt(3, this.group_id);
         createStatement.executeUpdate();
 
         connection.commit();

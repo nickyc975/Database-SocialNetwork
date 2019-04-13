@@ -169,7 +169,7 @@ public class Work extends Entity {
         storeStatement.setDate(2, this.start);
         storeStatement.setDate(3, this.end);
         storeStatement.setString(4, this.position);
-        storeStatement.setInt(6, this.work_id);
+        storeStatement.setInt(5, this.work_id);
 
         storeStatement.executeUpdate();
         connection.commit();
@@ -205,7 +205,7 @@ public class Work extends Entity {
     @Override
     public String toString() {
         return "{" + 
-               ", eduaction_id='" + this.work_id + "'" + 
+               "work_id='" + this.work_id + "'" + 
                ", employer='" + this.employer + "'" + 
                ", start='" + this.start + "'" + 
                ", end='" + this.end + "'" + 

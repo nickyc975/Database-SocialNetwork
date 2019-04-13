@@ -194,7 +194,7 @@ public class App {
                 String[] parts = s.split(" *, *", 3);
                 if (parts.length == 3) {
                     arg = new Arg(parts[0].trim(), parts[1].trim(), parts[2].trim());
-                    println(arg.toString());
+                    // println(arg.toString());
                     args.add(arg);
                 }
             }
