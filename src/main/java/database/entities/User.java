@@ -199,6 +199,23 @@ public class User extends Entity {
             key = entry.getKey();
             value = entry.getValue();
             switch (key) {
+                case "gender":
+                    if (!value.equals(MALE) || value.equals(FEMALE)) {
+                        throw new InvalidDataException(value, "Gender must be either MALE or FEMALE!");
+                    }
+                    break;
+                case "birthday":
+                    parseDate(value);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        for (Entry<String, String> entry : properties.entrySet()) {
+            key = entry.getKey();
+            value = entry.getValue();
+            switch (key) {
                 case "name":
                     this.name = value;
                     break;
@@ -206,9 +223,6 @@ public class User extends Entity {
                     this.password = value;
                     break;
                 case "gender":
-                    if (value != MALE || value != FEMALE) {
-                        throw new InvalidDataException(value, "Gender must be either MALE or FEMALE!");
-                    }
                     this.gender = value;
                     break;
                 case "birthday":
@@ -277,7 +291,7 @@ public class User extends Entity {
     @Override
     public String toString() {
         return "{" + 
-               ", username='" + username + "'" + 
+               "username='" + username + "'" + 
                ", name='" + name + "'" + 
                ", gender='" + gender + "'" + 
                ", birthday='" + birthday + "'" + 
