@@ -68,9 +68,6 @@ public class App {
             case "remove":
                 parseEntity(parts[1]);
                 break;
-            case "save":
-                parseEntity(parts[1]);
-                break;
             case "logout":
                 handleLogout();
                 break;
@@ -85,6 +82,11 @@ public class App {
     }
 
     private static void parseView(String str) {
+        if (user == null || !user.isAuthenticated()) {
+            println("User not logged in!");
+            return;
+        }
+
         String[] parts = str.split(" +", 2);
         model = parts[0];
         if (parts.length > 1) {
@@ -124,6 +126,11 @@ public class App {
     }
 
     private static void parseEntity(String str) {
+        if (user == null || !user.isAuthenticated()) {
+            println("User not logged in!");
+            return;
+        }
+
         String[] parts = str.split(" +", 2);
         model = parts[0];
         if (parts.length > 1) {
@@ -204,6 +211,8 @@ public class App {
         user = new User(parts[0], parts[1]);
         try {
             user.create();
+            ViewHandlers.setUser(user);
+            EntityHandlers.setUser(user);
             println("Welcome " + user.getUsername() + "!");
             return;
         } catch (SQLException e) {
@@ -222,6 +231,8 @@ public class App {
         try {
             if (user.login()) {
                 user.load();
+                ViewHandlers.setUser(user);
+                EntityHandlers.setUser(user);
                 println("Welcome " + user.getName() + "!");
             } else {
                 println("Wrong username or password!");
@@ -239,6 +250,8 @@ public class App {
         }
         
         user = null;
+        ViewHandlers.setUser(null);
+        EntityHandlers.setUser(null);
     }
 
     private static void handleUnregister() {
@@ -250,6 +263,8 @@ public class App {
         try {
             user.delete();
             user = null;
+            ViewHandlers.setUser(null);
+            EntityHandlers.setUser(null);
         } catch (SQLException e) {
             println(e.getMessage());
         }

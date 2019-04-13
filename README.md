@@ -26,8 +26,6 @@ exit
 show info
 
 update info (<attr_name>=<value>, ...)
-
-save info
 ```
 
 * Additional Info
@@ -40,8 +38,6 @@ add education (<attr_name>=<value>, ...)
 update education <education_id> (<attr_name>=<value>, ...)
 
 remove education <education_id>
-
-save education [<education_id>]
 ```
 
 ```
@@ -52,8 +48,6 @@ add work (<attr_name>=<value>, ...)
 update work <work_id> (<attr_name>=<value>, ...)
 
 remove work <work_id>
-
-save work [<work_id>]
 ```
 
 * Friend
@@ -68,8 +62,6 @@ add friend <username>
 update friend (<attr_name>=<value>, ...)
 
 remove friend <username>
-
-save friend [<username>]
 ```
 
 ```
@@ -80,8 +72,6 @@ add friend_group (<attr_name>=<value>, ...)
 update friend_group (<attr_name>=<value>, ...)
 
 remove friend_group <group_name>
-
-save friend_group
 ```
 
 * Post
@@ -94,8 +84,6 @@ add post (<attr_name>=<value>, ...)
 update post (<attr_name>=<value>, ...)
 
 remove post <post_id>
-
-save post [<post_id>]
 ```
 
 * Reply
@@ -106,8 +94,6 @@ show reply [(<attr_name>=<value>, ...)]
 add reply (<attr_name>=<value>, ...)
 
 remove reply <reply_id>
-
-save reply [<reply_id>]
 ```
 
 * Share
@@ -118,6 +104,4 @@ show share [(<attr_name>=<value>, ...)]
 add share (<attr_name>=<value>, ...)
 
 remove share <share_id>
-
-save share [<share_id>]
 ```

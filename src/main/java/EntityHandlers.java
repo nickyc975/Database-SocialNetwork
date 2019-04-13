@@ -4,6 +4,12 @@ import java.util.Map;
 import database.entities.*;
 
 class EntityHandlers {
+    private static User user;
+
+    static void setUser(User user) {
+        EntityHandlers.user = user;
+    }
+    
     static void handleInfo(String operation, String identity, List<Arg> args) {
 
     }
