@@ -175,14 +175,16 @@ public class App {
         if (!argsStr.startsWith("(") || !argsStr.endsWith(")")) {
             return;
         }
-
         argsStr = argsStr.substring(1, argsStr.length() - 1);
-        List<String> argsList = Arrays.asList(argsStr.split(", *"));
+        if (!argsStr.startsWith("(") || !argsStr.endsWith(")")) {
+            return;
+        }
+        argsStr = argsStr.substring(1, argsStr.length() - 1);
+        List<String> argsList = Arrays.asList(argsStr.split("\\) *, *\\("));
         for (String s : argsList) {
             s = s.trim();
             if (s.length() > 0) {
-                s = s.substring(1, s.length() - 1);
-                String[] parts = s.split(", *", 4);
+                String[] parts = s.split(" *, *", 3);
                 if (parts.length == 3) {
                     arg = new Arg(parts[0].trim(), parts[1].trim(), parts[2].trim());
                     println(arg.toString());
